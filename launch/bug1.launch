@@ -1,0 +1,10 @@
+<launch>
+    <param name="initial_x" value="0" />
+    <param name="initial_y" value="6" />
+    <param name="des_pos_x" value="-4" />
+    <param name="des_pos_y" value="-1" />
+
+    <node pkg="new_description" type="follow_wall.py" name="wall_follower" output="screen" />
+    <node pkg="new_description" type="go_to_point.py" name="go_to_point" output="screen" />
+    <node pkg="new_description" type="bug1.py" name="bug1" output="screen" />
+</launch>

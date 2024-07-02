@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="new_description" type="waypoints_spawner.py" name="waypoints_spawner" output="screen">
+        <param name="csv_file_path" value="$(find new_description)/waypoints.csv"/>
+    </node>
+</launch>

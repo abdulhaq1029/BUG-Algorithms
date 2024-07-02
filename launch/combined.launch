@@ -1,0 +1,29 @@
+<launch>
+  <!-- Arguments for URDF and RViz configuration -->
+  <arg name="model" default="$(find new_description)/urdf/new.xacro"/>
+  <arg name="gui" default="true"/>
+  <arg name="rvizconfig" default="$(find new_description)/launch/urdf.rviz"/>
+
+  <!-- Parameters -->
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
+  <param name="use_gui" value="$(arg gui)"/>
+
+  <!-- Joint State Publisher for URDF -->
+  <node name="joint_state_publisher_urdf" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- Robot State Publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true"/>
+
+  <!-- Arguments for Map -->
+  <arg name="map_file" default="$(find new_description)/maps/bug_map.yaml"/>
+  <arg name="move_forward_only" default="true"/>
+
+  <!-- Map Server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" output="screen"/>
+
+  <!-- Include Gazebo launch file -->
+  <include file="$(find new_description)/launch/gazebo.launch"/>
+</launch>

@@ -1,0 +1,27 @@
+<launch>
+    <!-- Load URDF description and spawn model -->
+    <param command="$(find xacro)/xacro $(find new_description)/urdf/new.xacro" name="robot_description"/>
+    <node args="-param robot_description -urdf -model new" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
+
+    <!-- Start joint state publisher and robot state publisher -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <!-- Launch Gazebo with your world -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(find new_description)/worlds/bug_world.world"/>
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+    <!-- Include bug1.launch content -->
+    <include file="$(find new_description)/launch/bug2.launch"/>
+
+    <!-- Include rviz.launch content -->
+    <include file="$(find new_description)/launch/rviz.launch"/>
+
+    <!-- Optionally, add more nodes or configurations here -->
+</launch>

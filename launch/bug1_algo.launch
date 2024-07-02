@@ -1,0 +1,7 @@
+<launch>
+  <!-- Launch Gazebo with your world and robot -->
+  <include file="$(find new_description)/launch/gazebo.launch"/>
+
+  <!-- Launch your bug1_algo.py script -->
+  <node name="bug1_algo_node" pkg="new_description" type="bug1_algo.py" output="screen"/>
+</launch>

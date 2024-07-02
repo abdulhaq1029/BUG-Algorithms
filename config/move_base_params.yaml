@@ -1,0 +1,40 @@
+# move_base_params.yaml
+
+controller_frequency: 5.0
+
+planner_frequency: 1.0
+planner_patience: 5.0
+planner_max_retries: -1
+
+recovery_behavior_enabled: true
+clearing_rotation_allowed: true
+clearing_rotation_angle: 1.5708
+clearing_rotation_speed: 1.0
+
+OscillationRecovery:
+  oscillation_timeout: 0.0
+  oscillation_distance: 0.5
+
+TrajectoryPlannerROS:
+  max_vel_x: 0.5
+  min_vel_x: 0.1
+  max_rotational_vel: 1.0
+  min_in_place_rotational_vel: 0.4
+  acc_lim_th: 1.0
+  acc_lim_x: 1.0
+  acc_lim_y: 0.0
+
+  yaw_goal_tolerance: 0.05
+  xy_goal_tolerance: 0.10
+  latch_xy_goal_tolerance: false
+
+  forward_point_distance: 0.325
+  goal_distance_bias: 24.0
+  path_distance_bias: 32.0
+  occdist_scale: 0.5
+  oscillation_reset_dist: 0.05
+
+  publish_cost_grid_pc: true
+  publish_potential: true
+
+  holonomic_robot: false

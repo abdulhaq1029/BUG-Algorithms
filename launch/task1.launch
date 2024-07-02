@@ -1,0 +1,45 @@
+<launch>
+  <!-- Robot description parameter -->
+  <param command="$(find xacro)/xacro $(find new_description)/urdf/new.xacro" name="robot_description"/>
+  
+  <!-- Spawn the robot model in Gazebo -->
+  <node args="-param robot_description -urdf -model new" name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"/>
+  
+  <!-- Joint State Publisher -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  
+  <!-- Robot State Publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  
+  <!-- Include Gazebo launch file with the specified world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find new_description)/worlds/bug_world.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- Launch RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find new_description)/rviz_config.rviz" />
+
+  <!-- Map server -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find new_description)/maps/bug_map.yaml" />
+
+  <!-- AMCL -->
+  <node name="amcl" pkg="amcl" type="amcl" output="screen">
+    <param name="use_map_topic" value="true"/>
+    <param name="base_frame_id" value="base_link"/>
+    <param name="odom_frame_id" value="odom"/>
+    <param name="scan_topic" value="/scan"/>
+  </node>
+
+  <!-- Navigation -->
+  <node name="move_base" pkg="move_base" type="move_base" output="screen">
+    <rosparam file="$(find new_description)/config/move_base_params.yaml" command="load"/>
+  </node>
+
+  <!-- Algorithm Node -->
+  <node name="bug0v5_algorithm" pkg="new_description" type="bug0v5.py" output="screen" launch-prefix="python3"/>
+</launch>
